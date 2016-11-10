@@ -5,14 +5,14 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-import mygeom.Path;
+import mygeom.BlobQueue;
 import mygeom.Point2;
 import tuio.MTedt;
 
 public class MTSurface extends JPanel {
 	
 	private MTedt edt;
-	private Path path = new Path();
+	private BlobQueue blobQueue = new BlobQueue();
 	
 	public MTSurface() {
 		super();
@@ -23,26 +23,24 @@ public class MTSurface extends JPanel {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		// drawing instructions with g2.
-		this.path.draw(g2);
+		this.blobQueue.draw(g2);
 	}
 	
 	public synchronized void addCursor(int id, Point2 p) {
 		System.out.println("add cursor id: " + id + ", (x,y) : (" + p.getX() + "," + p.getY() + ")");
-		this.path.clear();
-		this.path.setCursorId(id);
-		this.path.add(p);
+		this.blobQueue.addCursor(id, p);
 		this.repaint();
 	}
 	
 	public synchronized void removeCursor(int id, Point2 p) {
 		System.out.println("remove cursor id: " + id + ", (x,y) : (" + p.getX() + "," + p.getY() + ")");
-		this.path.clear();
+		this.blobQueue.removeCursor(id);
 		this.repaint();
 	}
 	
 	public synchronized void updateCursor(int id, Point2 p) {
 		System.out.println("update cursor id: " + id + ", (x,y) : (" + p.getX() + "," + p.getY() + ")");
-		this.path.add(p);
+		this.blobQueue.updateCursor(id, p);
 		this.repaint();
 	}
 
