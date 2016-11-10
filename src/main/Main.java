@@ -1,6 +1,9 @@
 package main;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
@@ -18,15 +21,26 @@ public class Main {
 	private static void createGui() {
 		JFrame frame = new JFrame("appli");
 		MTSurface surface = new MTSurface();
+		JButton cursorVisibleButton = new JButton("Cursor Visible");
+		
 		surface.setPreferredSize(new Dimension(SURFACE_WIDTH,SURFACE_HEIGHT));
 		surface.setBackground(new Color(0, 200, 255));
 		surface.setBorder(new LineBorder(new Color(255, 0, 0)));
+		
+		cursorVisibleButton.setPreferredSize(new Dimension(100, 30));
+		cursorVisibleButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				surface.switchCursorVisible();
+			}
+		});
 		
 		frame.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		
 		frame.setLayout(new FlowLayout());
 		
 		frame.getContentPane().add(surface);
+		frame.getContentPane().add(cursorVisibleButton);
 		
 		frame.pack();
 		frame.setVisible(true);

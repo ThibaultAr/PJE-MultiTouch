@@ -13,6 +13,7 @@ public class MTSurface extends JPanel {
 	
 	private MTedt edt;
 	private BlobQueue blobQueue = new BlobQueue();
+	private boolean cursorVisible = true;
 	
 	public MTSurface() {
 		super();
@@ -23,7 +24,11 @@ public class MTSurface extends JPanel {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		// drawing instructions with g2.
-		this.blobQueue.draw(g2);
+		if(this.cursorVisible) this.blobQueue.draw(g2);
+	}
+	
+	public void switchCursorVisible() {
+		this.cursorVisible = !this.cursorVisible;
 	}
 	
 	public synchronized void addCursor(int id, Point2 p) {
