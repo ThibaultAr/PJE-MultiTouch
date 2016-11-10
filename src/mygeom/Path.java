@@ -11,9 +11,14 @@ import main.Main;
 public class Path {
 
 	protected List<Point2> points = new ArrayList<Point2>();
+	protected int cursorId;
 
 	public void add(Point2 p) {
 		this.points.add(p); 
+	}
+	
+	public void setCursorId(int id) {
+		this.cursorId = id;
 	}
 	
 	public void clear() {
@@ -32,6 +37,7 @@ public class Path {
 		Point2 lastPoint = this.points.get(this.points.size()-1);
 		
 		g2.draw(new Ellipse2D.Double(lastPoint.getX()* Main.SURFACE_WIDTH -10, lastPoint.getY() * Main.SURFACE_HEIGHT -10, 20, 20));
+		g2.drawString("" + cursorId, (float) (lastPoint.getX()* Main.SURFACE_WIDTH - 3), (float) (lastPoint.getY() * Main.SURFACE_HEIGHT -2));
 		
 		g2.draw(p);
 	}

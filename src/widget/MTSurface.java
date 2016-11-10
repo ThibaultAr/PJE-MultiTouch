@@ -29,6 +29,7 @@ public class MTSurface extends JPanel {
 	public synchronized void addCursor(int id, Point2 p) {
 		System.out.println("add cursor id: " + id + ", (x,y) : (" + p.getX() + "," + p.getY() + ")");
 		this.path.clear();
+		this.path.setCursorId(id);
 		this.path.add(p);
 		this.repaint();
 	}
