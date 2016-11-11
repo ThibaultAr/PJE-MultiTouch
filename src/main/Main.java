@@ -8,6 +8,8 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 import widget.*;
+import widget.events.ChangedSideEvent;
+import widget.events.ChangedSideListener;
 import tuio.*;
 
 public class Main {
@@ -26,6 +28,12 @@ public class Main {
 		surface.setPreferredSize(new Dimension(SURFACE_WIDTH,SURFACE_HEIGHT));
 		surface.setBackground(new Color(0, 200, 255));
 		surface.setBorder(new LineBorder(new Color(255, 0, 0)));
+		surface.addChangedSideListener(new ChangedSideListener() {
+			@Override
+			public void changedSidePerformed(ChangedSideEvent e) {
+				System.out.println("curseur d'id : " + e.getCursorId() + " a changé de coté");
+			}
+		});
 		
 		cursorVisibleButton.setPreferredSize(new Dimension(100, 30));
 		cursorVisibleButton.addActionListener(new ActionListener() {
