@@ -7,7 +7,6 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 import javax.swing.event.EventListenerList;
 
-import main.Main;
 import mygeom.BlobQueue;
 import mygeom.Point2;
 import tuio.MTedt;
@@ -20,6 +19,7 @@ public class MTSurface extends JPanel {
 	private BlobQueue blobQueue = new BlobQueue();
 	private boolean cursorVisible = true;
 	private Point2 previousPos;
+	private MTContainer container;
 	
 	private EventListenerList listenerList = null;
 	
@@ -27,6 +27,11 @@ public class MTSurface extends JPanel {
 		super();
 		this.edt = new MTedt(this);
 		this.listenerList = new EventListenerList();
+		this.container = new MTContainer();
+	}
+	
+	public void add(MTComponent component) {
+		this.container.add(component);
 	}
 	
 	public void addChangedSideListener(ChangedSideListener l) {
@@ -47,6 +52,7 @@ public class MTSurface extends JPanel {
 		Graphics2D g2 = (Graphics2D) g;
 		// drawing instructions with g2.
 		if(this.cursorVisible) this.blobQueue.draw(g2);
+		this.container.draw(g2);
 	}
 	
 	public void switchCursorVisible() {

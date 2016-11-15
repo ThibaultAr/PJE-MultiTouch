@@ -24,6 +24,9 @@ public class Main {
 		JFrame frame = new JFrame("appli");
 		MTSurface surface = new MTSurface();
 		JButton cursorVisibleButton = new JButton("Cursor Visible");
+		MTPicture pic = new MTPicture("data/Bird.jpg");
+		
+		surface.add(pic);
 		
 		surface.setPreferredSize(new Dimension(SURFACE_WIDTH,SURFACE_HEIGHT));
 		surface.setBackground(new Color(0, 200, 255));
@@ -31,7 +34,7 @@ public class Main {
 		surface.addChangedSideListener(new ChangedSideListener() {
 			@Override
 			public void changedSidePerformed(ChangedSideEvent e) {
-				System.out.println("curseur d'id : " + e.getCursorId() + " a changÃ© de cotÃ©");
+				System.out.println("curseur d'id : " + e.getCursorId() + " a changé de coté");
 			}
 		});
 		
