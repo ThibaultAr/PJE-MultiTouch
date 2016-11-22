@@ -31,4 +31,8 @@ public class BlobQueue {
 			path.draw(g2);
 		}
 	}
+	
+	public boolean checkid (int id) {
+		return this.cursor.containsKey(id);
+	}
 }

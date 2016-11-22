@@ -1,32 +1,39 @@
 package main;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
-import widget.*;
+import mygeom.Vector2;
+import widget.MTPicture;
+import widget.MTSurface;
 import widget.events.ChangedSideEvent;
 import widget.events.ChangedSideListener;
-import tuio.*;
 
 public class Main {
 
-	public static final int FRAME_WIDTH = 500;
-	public static final int FRAME_HEIGHT = 500;
-	public static final int SURFACE_WIDTH = 250;
-	public static final int SURFACE_HEIGHT = 250;
+	public static final int FRAME_WIDTH = 1000;
+	public static final int FRAME_HEIGHT = 1000;
+	public static final int SURFACE_WIDTH = 700;
+	public static final int SURFACE_HEIGHT = 700;
 	
 	
 	private static void createGui() {
 		JFrame frame = new JFrame("appli");
 		MTSurface surface = new MTSurface();
 		JButton cursorVisibleButton = new JButton("Cursor Visible");
-		MTPicture pic = new MTPicture("data/Bird.jpg");
+		MTPicture pic = new MTPicture("data/Bird.jpg", new Vector2 (0,0));
+		MTPicture pic2 = new MTPicture("data/Snake_River.jpg", new Vector2 (350, 350));
 		
 		surface.add(pic);
+		surface.add(pic2);
 		
 		surface.setPreferredSize(new Dimension(SURFACE_WIDTH,SURFACE_HEIGHT));
 		surface.setBackground(new Color(0, 200, 255));

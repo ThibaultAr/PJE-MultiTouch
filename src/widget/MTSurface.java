@@ -16,7 +16,7 @@ import widget.events.ChangedSideListener;
 public class MTSurface extends JPanel {
 	
 	private MTedt edt;
-	private BlobQueue blobQueue = new BlobQueue();
+	private ComponentMap Cmap;
 	private boolean cursorVisible = true;
 	private Point2 previousPos;
 	private MTContainer container;
@@ -25,6 +25,7 @@ public class MTSurface extends JPanel {
 	
 	public MTSurface() {
 		super();
+		this.Cmap = new ComponentMap();
 		this.edt = new MTedt(this);
 		this.listenerList = new EventListenerList();
 		this.container = new MTContainer();
@@ -51,8 +52,8 @@ public class MTSurface extends JPanel {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		// drawing instructions with g2.
-		if(this.cursorVisible) this.blobQueue.draw(g2);
 		this.container.draw(g2);
+		if(this.cursorVisible) this.Cmap.draw(g2);
 	}
 	
 	public void switchCursorVisible() {
@@ -61,7 +62,7 @@ public class MTSurface extends JPanel {
 	
 	public synchronized void addCursor(int id, Point2 p) {
 		System.out.println("add cursor id: " + id + ", (x,y) : (" + p.getX() + "," + p.getY() + ")");
-		this.blobQueue.addCursor(id, p);
+		this.Cmap.addBlob(this.container.whichIs(p), id, p);
 		this.repaint();
 		
 		this.previousPos = p;
@@ -69,13 +70,13 @@ public class MTSurface extends JPanel {
 	
 	public synchronized void removeCursor(int id, Point2 p) {
 		System.out.println("remove cursor id: " + id + ", (x,y) : (" + p.getX() + "," + p.getY() + ")");
-		this.blobQueue.removeCursor(id);
+		this.Cmap.removeBlob(id, p);
 		this.repaint();
 	}
 	
 	public synchronized void updateCursor(int id, Point2 p) {
 		System.out.println("update cursor id: " + id + ", (x,y) : (" + p.getX() + "," + p.getY() + ")");
-		this.blobQueue.updateCursor(id, p);
+		this.Cmap.updateBlob(id, p);
 		this.repaint();
 		
 		double middleX = 0.5;
