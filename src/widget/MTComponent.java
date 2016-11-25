@@ -15,6 +15,7 @@ import widget.events.SRTEventListener;
 
 public abstract class MTComponent extends JComponent {
 	protected OBB obb;
+	protected MTContainer container;
 	
 	public abstract void draw(Graphics2D g);
 	
@@ -49,6 +50,17 @@ public abstract class MTComponent extends JComponent {
 		}
 	}
 	
+	public void registerContainer(MTContainer container) {
+		this.container = container;
+	}
+	
+	public void click() {
+		this.container.select(this);
+	}
+	
+	public OBB getOBB() {
+		return this.obb;
+	}
 	
 	@Override
 	public int hashCode() {

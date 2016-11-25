@@ -26,9 +26,16 @@ public class MTContainer extends MTComponent {
 		reverse.addAll(this.components);
 		Collections.reverse(reverse);
 		for(MTComponent comp : reverse) {
-			if(comp.isInside(point))
+			if(comp.isInside(point)) {
+				comp.registerContainer(this);
 				return comp;
+			}
 		}
 		return this;
+	}
+	
+	public void select(MTComponent comp) {
+		this.components.remove(comp);
+		this.components.add(comp);
 	}
 }

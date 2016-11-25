@@ -12,12 +12,15 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
 import mygeom.Vector2;
+import widget.MTComponent;
 import widget.MTPicture;
 import widget.MTSurface;
 import widget.events.ChangedSideEvent;
 import widget.events.ChangedSideListener;
 import widget.events.DiscreteEvent;
 import widget.events.DiscreteEventListener;
+import widget.events.SRTEvent;
+import widget.events.SRTEventListener;
 
 public class Main {
 
@@ -32,15 +35,13 @@ public class Main {
 		MTSurface surface = new MTSurface();
 		JButton cursorVisibleButton = new JButton("Cursor Visible");
 		MTPicture pic = new MTPicture("data/Bird.jpg", new Vector2 (0,0));
-		MTPicture pic2 = new MTPicture("data/Snake_River.jpg", new Vector2 (350, 350));
+		MTPicture pic2 = new MTPicture("data/Snake_River.jpg", new Vector2 (100, 100));
 		
-		pic.addDiscreteEventListener(new DiscreteEventListener() {
-			
-			@Override
-			public void gesturePerformed(DiscreteEvent ev) {
-				System.out.println("L'image bird.png a ete clique");
-			}
-		});
+		pic.addDiscreteEventListener(new MainDiscreteListener());
+		pic2.addDiscreteEventListener(new MainDiscreteListener());
+		
+		pic.addSRTEventListener(new MainSRTListener());
+		pic2.addSRTEventListener(new MainSRTListener());
 		
 		surface.add(pic);
 		surface.add(pic2);
@@ -86,5 +87,22 @@ public class Main {
 	}	
 	
 	
+}
 
+class MainDiscreteListener implements DiscreteEventListener {
+	
+	@Override
+	public void gesturePerformed(DiscreteEvent ev) {
+		((MTComponent) ev.getSource()).click();
+	}
+	
+}
+
+class MainSRTListener implements SRTEventListener {
+
+	@Override
+	public void gesturePerformed(SRTEvent ev) {
+		((MTComponent) ev.getSource()).getOBB().getOrigin().add(ev.getTranslation());
+	}
+	
 }
