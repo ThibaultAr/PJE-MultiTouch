@@ -16,6 +16,8 @@ import widget.MTPicture;
 import widget.MTSurface;
 import widget.events.ChangedSideEvent;
 import widget.events.ChangedSideListener;
+import widget.events.DiscreteEvent;
+import widget.events.DiscreteEventListener;
 
 public class Main {
 
@@ -32,6 +34,14 @@ public class Main {
 		MTPicture pic = new MTPicture("data/Bird.jpg", new Vector2 (0,0));
 		MTPicture pic2 = new MTPicture("data/Snake_River.jpg", new Vector2 (350, 350));
 		
+		pic.addDiscreteEventListener(new DiscreteEventListener() {
+			
+			@Override
+			public void gesturePerformed(DiscreteEvent ev) {
+				System.out.println("L'image bird.png a ete clique");
+			}
+		});
+		
 		surface.add(pic);
 		surface.add(pic2);
 		
@@ -41,7 +51,7 @@ public class Main {
 		surface.addChangedSideListener(new ChangedSideListener() {
 			@Override
 			public void changedSidePerformed(ChangedSideEvent e) {
-				System.out.println("curseur d'id : " + e.getCursorId() + " a changé de coté");
+				System.out.println("curseur d'id : " + e.getCursorId() + " a changï¿½ de cotï¿½");
 			}
 		});
 		

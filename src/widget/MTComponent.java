@@ -5,6 +5,7 @@ import java.util.EventObject;
 
 import javax.swing.JComponent;
 
+import main.Main;
 import mygeom.OBB;
 import mygeom.Point2;
 import widget.events.DiscreteEvent;
@@ -18,10 +19,10 @@ public abstract class MTComponent extends JComponent {
 	public abstract void draw(Graphics2D g);
 	
 	public boolean isInside(Point2 point) {
-		return (point.getX() >= this.obb.getOrigin().getX())
-		&& (point.getY() >= this.obb.getOrigin().getY())
-		&& (point.getX() <= this.obb.getWidth() + this.obb.getOrigin().getX())
-		&& (point.getY() <= this.obb.getHeight() + this.obb.getOrigin().getY());
+		return (point.getX() >= this.obb.getOrigin().getX() / Main.SURFACE_WIDTH)
+		&& (point.getY() >= this.obb.getOrigin().getY() / Main.SURFACE_HEIGHT)
+		&& (point.getX() <= (this.obb.getWidth() + this.obb.getOrigin().getX()) / Main.SURFACE_WIDTH)
+		&& (point.getY() <= (this.obb.getHeight() + this.obb.getOrigin().getY()) / Main.SURFACE_HEIGHT);
 	}
 
 	public void addDiscreteEventListener(DiscreteEventListener listener) {
