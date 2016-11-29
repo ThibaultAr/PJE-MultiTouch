@@ -7,7 +7,6 @@ import java.util.EventObject;
 
 import javax.swing.JComponent;
 
-import main.Main;
 import mygeom.OBB;
 import mygeom.Point2;
 import mygeom.Vector2;
@@ -19,9 +18,14 @@ import widget.events.SRTEventListener;
 public abstract class MTComponent extends JComponent {
 	protected OBB obb;
 	protected MTContainer container;
+	protected InternalGestureState gestureState;
 
+	public MTComponent() {
+		this.gestureState = new InternalGestureState(this); 
+	}
+	
 	public abstract void draw(Graphics2D g);
-
+	
 	public boolean isInside(Point2 point) {
 		AffineTransform obbToWorld = new AffineTransform();
 		obbToWorld.setToIdentity();

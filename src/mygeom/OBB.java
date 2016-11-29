@@ -15,6 +15,11 @@ public class OBB {
 		this.height = height;
 	}
 	
+	public OBB() {
+		super();
+		//this(0, new Vector2(), 0, 0);
+	}
+	
 	public double getX() {
 		return this.origin.getX();
 	}

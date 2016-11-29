@@ -35,4 +35,8 @@ public class BlobQueue {
 	public boolean checkid (int id) {
 		return this.cursor.containsKey(id);
 	}
+	
+	public int getNbCursor() {
+		return this.cursor.size();
+	}
 }
