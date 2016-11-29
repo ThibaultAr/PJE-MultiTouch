@@ -23,10 +23,16 @@ public abstract class MTComponent extends JComponent {
 	public abstract void draw(Graphics2D g);
 
 	public boolean isInside(Point2 point) {
-		return (point.getX() >= this.obb.getOrigin().getX() / Main.SURFACE_WIDTH)
-				&& (point.getY() >= this.obb.getOrigin().getY() / Main.SURFACE_HEIGHT)
-				&& (point.getX() <= (this.obb.getWidth() + this.obb.getX()) / Main.SURFACE_WIDTH)
-				&& (point.getY() <= (this.obb.getHeight() + this.obb.getY()) / Main.SURFACE_HEIGHT);
+		AffineTransform obbToWorld = new AffineTransform();
+		obbToWorld.setToIdentity();
+		obbToWorld.scale(1.0/this.obb.getNormalizeWidth(), 1.0/this.obb.getNormalizeHeight());
+		obbToWorld.rotate(-this.obb.getAngle());
+		obbToWorld.translate(-this.obb.getNormalizeX(), -this.obb.getNormalizeY());
+		Point2D curseur2 = new Point2D.Double(point.getX(), point.getY());
+		Point2D curseurOBB = new Point2D.Double();
+		obbToWorld.transform(curseur2, curseurOBB);
+		
+		return (curseurOBB.getX() <= 1) && (curseurOBB.getX() >= 0) && (curseurOBB.getY() <= 1) && (curseurOBB.getY() >= 0);
 	}
 
 	public void addDiscreteEventListener(DiscreteEventListener listener) {
@@ -72,7 +78,7 @@ public abstract class MTComponent extends JComponent {
 		this.obb.setWidth(width);
 	}
 	
-	public void updateposition(Vector2 t, double angle, double k) {
+	public void updatePosition(Vector2 t, double angle, double k) {
 		this.obb.setAngle(this.obb.getAngle() + angle);
 		this.obb.setHeight(this.obb.getHeight() * k);
 		this.obb.setWidth(this.obb.getWidth() * k);

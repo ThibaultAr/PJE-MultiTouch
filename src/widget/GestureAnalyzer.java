@@ -9,7 +9,7 @@ import widget.events.SRTEvent;
 
 public class GestureAnalyzer {
 	
-	protected Point2 previousPoint;
+	protected Point2 previousPoint = new Point2();
 	
 	public void analyze(MTComponent comp, BlobQueue bq, String state, int id, Point2 point) {
 		switch(state) {
@@ -24,6 +24,6 @@ public class GestureAnalyzer {
 			comp.fireSRTPerformed(new SRTEvent(comp, translate));
 			break;
 		}
-		this.previousPoint = point;
+		point.copy(this.previousPoint);
 	}
 }

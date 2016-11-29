@@ -1,5 +1,7 @@
 package mygeom;
 
+import main.Main;
+
 public class OBB {
 	protected double angle;
 	protected Vector2 origin;
@@ -16,9 +18,15 @@ public class OBB {
 	public double getX() {
 		return this.origin.getX();
 	}
+	public double getNormalizeX() {
+		return this.origin.getX() / Main.SURFACE_WIDTH;
+	}
 	
 	public double getY() {
 		return this.origin.getY();
+	}
+	public double getNormalizeY() {
+		return this.origin.getY() / Main.SURFACE_HEIGHT;
 	}
 	
 	public double getAngle() {
@@ -27,11 +35,18 @@ public class OBB {
 	public Vector2 getOrigin() {
 		return origin;
 	}
+	
 	public double getWidth() {
 		return width;
 	}
+	public double getNormalizeWidth() {
+		return width / Main.SURFACE_WIDTH;
+	}
 	public double getHeight() {
 		return height;
+	}
+	public double getNormalizeHeight() {
+		return height / Main.SURFACE_HEIGHT;
 	}
 
 	public void setAngle(double angle) {

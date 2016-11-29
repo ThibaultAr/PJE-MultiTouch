@@ -35,7 +35,7 @@ public class MTContainer extends MTComponent {
 		List<MTComponent> reverse = new ArrayList<MTComponent>();
 		reverse.addAll(this.components);
 		Collections.reverse(reverse);
-		for (MTComponent comp : reverse) {
+		for (MTComponent comp : reverse) {			
 			if (comp.isInside(point)) {
 				comp.registerContainer(this);
 				return comp;
