@@ -43,6 +43,9 @@ public class Main {
 		pic.addSRTEventListener(new MainSRTListener());
 		pic2.addSRTEventListener(new MainSRTListener());
 		
+		pic.setPosition(10, new Vector2(200, 200), 200, 200);
+		pic2.setPosition(30, new Vector2(0,0), 200, 200);
+		
 		surface.add(pic);
 		surface.add(pic2);
 		

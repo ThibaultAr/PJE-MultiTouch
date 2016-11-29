@@ -25,8 +25,7 @@ public class MTPicture extends MTComponent {
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(image, (int) this.obb.getOrigin().getX(), (int) this.obb.getOrigin().getY(), this.obb.getWidth(),
-				this.obb.getHeight(), null);
+		g.drawImage(image, 0, 0, (int) this.obb.getWidth(), (int) this.obb.getHeight(), null);
 	}
 
 }

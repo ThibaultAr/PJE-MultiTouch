@@ -1,32 +1,40 @@
 package mygeom;
 
 public class OBB {
-	protected int angle;
+	protected double angle;
 	protected Vector2 origin;
-	protected int width;
-	protected int height;
+	protected double width;
+	protected double height;
 	
-	public OBB(int angle, Vector2 origin, int width, int height) {
+	public OBB(double angle, Vector2 origin, double width, double height) {
 		this.angle = angle;
 		this.origin = origin;
 		this.width = width;
 		this.height = height;
 	}
 	
-	public int getAngle() {
+	public double getX() {
+		return this.origin.getX();
+	}
+	
+	public double getY() {
+		return this.origin.getY();
+	}
+	
+	public double getAngle() {
 		return angle;
 	}
 	public Vector2 getOrigin() {
 		return origin;
 	}
-	public int getWidth() {
+	public double getWidth() {
 		return width;
 	}
-	public int getHeight() {
+	public double getHeight() {
 		return height;
 	}
 
-	public void setAngle(int angle) {
+	public void setAngle(double angle) {
 		this.angle = angle;
 	}
 
@@ -34,11 +42,11 @@ public class OBB {
 		this.origin = origin;
 	}
 
-	public void setWidth(int width) {
+	public void setWidth(double width) {
 		this.width = width;
 	}
 
-	public void setHeight(int height) {
+	public void setHeight(double height) {
 		this.height = height;
 	}
 }
