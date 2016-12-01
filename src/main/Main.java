@@ -105,7 +105,7 @@ class MainSRTListener implements SRTEventListener {
 
 	@Override
 	public void gesturePerformed(SRTEvent ev) {
-		((MTComponent) ev.getSource()).getOBB().getOrigin().add(ev.getTranslation());
+		((MTComponent) ev.getSource()).updatePosition(ev.getTranslation(), ev.getAngle(), ev.getScale());
 	}
 	
 }

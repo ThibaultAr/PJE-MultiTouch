@@ -20,8 +20,6 @@ public class GestureAnalyzer {
 //			updatePoint.sub(previousPoint);
 //			Vector2 translate = new Vector2(updatePoint.getX() * Main.SURFACE_WIDTH, updatePoint.getY() * Main.SURFACE_HEIGHT);
 			this.update(comp, point, bq);
-			
-			comp.fireSRTPerformed(new SRTEvent(comp, translate));
 			break;
 		case "Remove" :
 			this.remove(comp, point, bq);
@@ -37,10 +35,13 @@ public class GestureAnalyzer {
 	public void update(MTComponent comp, Point2 point, BlobQueue bq) {
 		if(bq.getNbCursor() == 1)
 			comp.gestureState.motionTranslateUpdate(new Vector2(point.getX(), point.getY()));
+		
+		Vector2 translation = comp.gestureState.computeTranslation();
+		comp.fireSRTPerformed(new SRTEvent(comp, translation, 0, 1));
 	}
 	
 	public void remove(MTComponent comp, Point2 point, BlobQueue bq) {
-		if(bq.getNbCursor() > 1) {
+		if(bq.getNbCursor() >= 1) {
 			comp.gestureState.motionTranslateBegin(new Vector2(point.getX(), point.getY()));
 		}
 	}

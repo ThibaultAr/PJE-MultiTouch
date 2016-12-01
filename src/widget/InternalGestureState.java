@@ -22,4 +22,11 @@ public class InternalGestureState {
 		this.currentPos.copy(oldPos);
 		cursor.copy(currentPos);
 	}
+	
+	public Vector2 computeTranslation() {
+		double x = currentPos.getX() - oldPos.getX();
+		double y = currentPos.getY() - oldPos.getY();
+		
+		return new Vector2(x, y);
+	}
 }

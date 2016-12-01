@@ -7,6 +7,7 @@ import java.util.EventObject;
 
 import javax.swing.JComponent;
 
+import main.Main;
 import mygeom.OBB;
 import mygeom.Point2;
 import mygeom.Vector2;
@@ -86,7 +87,10 @@ public abstract class MTComponent extends JComponent {
 		this.obb.setAngle(this.obb.getAngle() + angle);
 		this.obb.setHeight(this.obb.getHeight() * k);
 		this.obb.setWidth(this.obb.getWidth() * k);
-		this.obb.getOrigin().add(t);
+		
+		double x = t.getX() * Main.SURFACE_WIDTH;
+		double y = t.getY() * Main.SURFACE_HEIGHT;
+		this.obb.getOrigin().add(new Vector2(x, y));
 	}
 
 	@Override
