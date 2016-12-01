@@ -5,11 +5,15 @@ import mygeom.Vector2;
 
 public class InternalGestureState {
 	protected OBB oldOBB, currentOBB;
-	protected Vector2 oldPos, currentPos;
+	protected Vector2 oldPos, currentPos, A, B, Ap, Bp;
 	
 	public InternalGestureState(MTComponent c) {
 		this.oldPos = new Vector2();
 		this.currentPos = new Vector2();
+		this.A = new Vector2();
+		this.B = new Vector2();
+		this.Ap = new Vector2();
+		this.Bp = new Vector2();
 		this.oldOBB = new OBB(); 
 		this.currentOBB = c.getOBB();
 	}
@@ -28,5 +32,31 @@ public class InternalGestureState {
 		double y = currentPos.getY() - oldPos.getY();
 		
 		return new Vector2(x, y);
+	}
+	
+	public void motionTRSBegin(Vector2 cursorA, Vector2 cursorB) {
+		cursorA.copy(Ap);
+		cursorB.copy(Bp);
+	}
+	
+	public void motionTRSUpdate(Vector2 cursorA, Vector2 cursorB) {
+		this.Ap.copy(A);
+		this.Bp.copy(B);
+		cursorA.copy(Ap);
+		cursorB.copy(Bp);
+	}
+	
+	public double computeTRSScale() {
+		double xBxA = (B.getX() - A.getX());
+		double yByA = (B.getY() - A.getY());
+		double xBpxAp = (Bp.getX() - Ap.getX());
+		double yBpyAp = (Bp.getY() - Ap.getY());
+		
+		double normeAB = Math.sqrt(xBxA * xBxA + yByA * yByA);
+		double normeApBp = Math.sqrt(xBpxAp * xBpxAp + yBpyAp * yBpyAp);
+		
+		System.out.println(normeAB);
+		
+		return normeApBp / normeAB;
 	}
 }

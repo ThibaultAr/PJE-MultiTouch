@@ -2,6 +2,7 @@ package mygeom;
 
 import java.awt.Graphics2D;
 import java.util.HashMap;
+import java.util.List;
 
 public class BlobQueue {
 	
@@ -38,5 +39,10 @@ public class BlobQueue {
 	
 	public int getNbCursor() {
 		return this.cursor.size();
+	}
+	
+	public Point2 getCursor(int id) {
+		List<Point2> path = this.cursor.get(id).points;
+		return path.get(path.size() - 1);
 	}
 }
