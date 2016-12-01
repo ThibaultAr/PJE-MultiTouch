@@ -1,5 +1,8 @@
 package widget;
 
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+
 import mygeom.OBB;
 import mygeom.Vector2;
 
@@ -61,12 +64,35 @@ public class InternalGestureState {
 	public double computeTRSRotation() {
 		Vector2 u = new Vector2(B.getX() - A.getX(), B.getY() - A.getY()).normalize();
 		Vector2 v = new Vector2(Bp.getX() - Ap.getX(), Bp.getY() - Ap.getY()).normalize();
-		
+				
 		double dot = u.dot(v);
 		double det = u.determinant(v);
 		
 		if(dot > 1) dot = 1;
 		
 		return Math.signum(det) * Math.acos(dot);
+	}
+	
+	public Vector2 computeTRSTranslate() {
+		AffineTransform transform = new AffineTransform();
+		double angle = this.computeTRSRotation();
+		double scale = this.computeTRSScale();
+		
+		
+		transform.setToTranslation(A.getX(), A.getY());
+		transform.translate(Ap.getX() - A.getX(), Ap.getY() - A.getY());
+		transform.rotate(angle);
+		transform.scale(scale, scale);
+		transform.translate(-A.getX(), -A.getY());
+		
+		Point2D P0 = new Point2D.Double(this.currentOBB.getNormalizeX(), this.currentOBB.getNormalizeY());
+		Point2D Pp0 = new Point2D.Double();
+		
+		transform.transform(P0, Pp0);
+		
+		Vector2 vPp0 = new Vector2(Pp0.getX(), Pp0.getY());
+		Vector2 vP0 = new Vector2(P0.getX(), P0.getY());
+		
+		return (Vector2) vPp0.sub(vP0);
 	}
 }

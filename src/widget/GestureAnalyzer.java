@@ -16,15 +16,11 @@ public class GestureAnalyzer {
 			comp.fireDiscretePerformed(new DiscreteEvent(comp));
 			break;
 		case "Update" :
-//			Point2 updatePoint = new Point2(point.getX(), point.getY());
-//			updatePoint.sub(previousPoint);
-//			Vector2 translate = new Vector2(updatePoint.getX() * Main.SURFACE_WIDTH, updatePoint.getY() * Main.SURFACE_HEIGHT);
 			this.update(comp, point, bq);
 			break;
 		case "Remove" :
 			this.remove(comp, point, bq);
 		}
-//		point.copy(this.previousPoint);
 	}
 	
 	public void add(MTComponent comp, Point2 point, BlobQueue bq) {
@@ -49,8 +45,9 @@ public class GestureAnalyzer {
 			comp.gestureState.motionTRSUpdate(new Vector2(cursorA.getX(), cursorA.getY()), new Vector2(cursorB.getX(), cursorB.getY()));
 			double scale = comp.gestureState.computeTRSScale();
 			double angle = comp.gestureState.computeTRSRotation();
+			Vector2 translation = comp.gestureState.computeTRSTranslate();
 			
-			comp.fireSRTPerformed(new SRTEvent(comp, new Vector2(), angle, scale));
+			comp.fireSRTPerformed(new SRTEvent(comp, translation, angle, scale));
 		}
 		
 	}

@@ -37,14 +37,15 @@ public class Main {
 		MTPicture pic = new MTPicture("data/Bird.jpg", new Vector2 (0,0));
 		MTPicture pic2 = new MTPicture("data/Snake_River.jpg", new Vector2 (100, 100));
 		
+		pic.setPosition(Math.toRadians(10), new Vector2(500, 500), 200, 200);
+		pic2.setPosition(Math.toRadians(30), new Vector2(400,400), 200, 200);
+
 		pic.addDiscreteEventListener(new MainDiscreteListener());
 		pic2.addDiscreteEventListener(new MainDiscreteListener());
 		
 		pic.addSRTEventListener(new MainSRTListener());
 		pic2.addSRTEventListener(new MainSRTListener());
 		
-		pic.setPosition(10, new Vector2(500, 500), 200, 200);
-		pic2.setPosition(30, new Vector2(400,400), 200, 200);
 		
 		surface.add(pic);
 		surface.add(pic2);

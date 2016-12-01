@@ -16,8 +16,8 @@ public class OBB {
 	}
 	
 	public OBB() {
-		super();
-		//this(0, new Vector2(), 0, 0);
+//		super();
+		this(0, new Vector2(), 0, 0);
 	}
 	
 	public double getX() {

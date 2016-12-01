@@ -15,7 +15,7 @@ public class Vector2 extends Tuple2 {
 	}
 	
 	public double dot(Vector2 v) {
-		return this.x * v.x + this.y * y;
+		return this.x * v.x + this.y * v.y;
 	}
 	
 	public double determinant(Vector2 v) {
@@ -23,10 +23,10 @@ public class Vector2 extends Tuple2 {
 	}
 	
 	public Vector2 normalize() {
-		double norme = Math.sqrt(x * x + y * y);
+		double longueur = Math.sqrt(x * x + y * y);
 		
-		x /= norme;
-		y /= norme;
+		this.x = this.x / longueur;			
+		this.y = this.y / longueur;
 		
 		return this;
 	}

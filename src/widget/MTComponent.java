@@ -22,6 +22,7 @@ public abstract class MTComponent extends JComponent {
 	protected InternalGestureState gestureState;
 
 	public MTComponent() {
+		this.obb = new OBB();
 		this.gestureState = new InternalGestureState(this); 
 	}
 	

@@ -18,7 +18,6 @@ public class MTPicture extends MTComponent {
 		super();
 		try {
 			this.image = ImageIO.read(new File(name));
-			this.obb = new OBB(0, origin, this.image.getWidth()/5, this.image.getHeight()/5);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
