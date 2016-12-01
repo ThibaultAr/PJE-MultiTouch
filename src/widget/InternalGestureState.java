@@ -55,8 +55,18 @@ public class InternalGestureState {
 		double normeAB = Math.sqrt(xBxA * xBxA + yByA * yByA);
 		double normeApBp = Math.sqrt(xBpxAp * xBpxAp + yBpyAp * yBpyAp);
 		
-		System.out.println(normeAB);
-		
 		return normeApBp / normeAB;
+	}
+	
+	public double computeTRSRotation() {
+		Vector2 u = new Vector2(B.getX() - A.getX(), B.getY() - A.getY()).normalize();
+		Vector2 v = new Vector2(Bp.getX() - Ap.getX(), Bp.getY() - Ap.getY()).normalize();
+		
+		double dot = u.dot(v);
+		double det = u.determinant(v);
+		
+		if(dot > 1) dot = 1;
+		
+		return Math.signum(det) * Math.acos(dot);
 	}
 }

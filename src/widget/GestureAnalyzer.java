@@ -48,8 +48,9 @@ public class GestureAnalyzer {
 			Point2 cursorB = bq.getCursor(1);
 			comp.gestureState.motionTRSUpdate(new Vector2(cursorA.getX(), cursorA.getY()), new Vector2(cursorB.getX(), cursorB.getY()));
 			double scale = comp.gestureState.computeTRSScale();
+			double angle = comp.gestureState.computeTRSRotation();
 			
-			comp.fireSRTPerformed(new SRTEvent(comp, new Vector2(), 0, scale));
+			comp.fireSRTPerformed(new SRTEvent(comp, new Vector2(), angle, scale));
 		}
 		
 	}

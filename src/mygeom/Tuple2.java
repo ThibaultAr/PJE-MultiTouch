@@ -2,7 +2,7 @@ package mygeom;
 
 
 public class Tuple2 {
-	private double x,y;
+	protected double x,y;
 	
 	public Tuple2() {
 		x=0;y=0;
@@ -70,7 +70,7 @@ public class Tuple2 {
     	y=yy;
     }
     
-    /// @brief compatibilité avec cout (affiche les coordonnées).
+    /// @brief compatibilitï¿½ avec cout (affiche les coordonnï¿½es).
     public String toString() {
     	return "("+x+","+y+")";
     }

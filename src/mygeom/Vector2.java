@@ -14,4 +14,20 @@ public class Vector2 extends Tuple2 {
 		super(x,y);
 	}
 	
+	public double dot(Vector2 v) {
+		return this.x * v.x + this.y * y;
+	}
+	
+	public double determinant(Vector2 v) {
+		return this.x * v.y - this.y * v.x;
+	}
+	
+	public Vector2 normalize() {
+		double norme = Math.sqrt(x * x + y * y);
+		
+		x /= norme;
+		y /= norme;
+		
+		return this;
+	}
 }
