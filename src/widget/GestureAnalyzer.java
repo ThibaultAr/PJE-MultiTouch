@@ -1,6 +1,5 @@
 package widget;
 
-import main.Main;
 import mygeom.BlobQueue;
 import mygeom.Point2;
 import mygeom.Vector2;
