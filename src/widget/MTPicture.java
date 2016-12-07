@@ -17,7 +17,7 @@ public class MTPicture extends MTComponent {
 	public MTPicture(String name, Vector2 origin) {
 		super();
 		try {
-			this.image = ImageIO.read(new File(name));
+			this.image = ImageIO.read(new File(new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath()).getParent() + name));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
