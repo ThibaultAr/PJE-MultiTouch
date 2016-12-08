@@ -11,6 +11,8 @@ import main.Main;
 import mygeom.OBB;
 import mygeom.Point2;
 import mygeom.Vector2;
+import oneDollarRecognizer.GestureEvent;
+import oneDollarRecognizer.GestureEventListener;
 import widget.events.DiscreteEvent;
 import widget.events.DiscreteEventListener;
 import widget.events.SRTEvent;
@@ -48,6 +50,10 @@ public abstract class MTComponent extends JComponent {
 	public void addSRTEventListener(SRTEventListener listener) {
 		this.listenerList.add(SRTEventListener.class, listener);
 	}
+	
+	public void addGestureEventListener(GestureEventListener listener) {
+		this.listenerList.add(GestureEventListener.class, listener);
+	}
 
 	public void fireDiscretePerformed(EventObject ev) {
 		Object[] listeners = this.listenerList.getListenerList();
@@ -62,6 +68,14 @@ public abstract class MTComponent extends JComponent {
 		for (int i = listeners.length - 2; i >= 0; i -= 2) {
 			if (listeners[i] == SRTEventListener.class)
 				((SRTEventListener) listeners[i + 1]).gesturePerformed((SRTEvent) ev);
+		}
+	}
+	
+	public void fireGesturePerformed(EventObject ev) {
+		Object[] listeners = this.listenerList.getListenerList();
+		for (int i = listeners.length - 2; i >= 0; i -= 2) {
+			if (listeners[i] == GestureEventListener.class)
+				((GestureEventListener) listeners[i + 1]).gesturePerformed((GestureEvent) ev);
 		}
 	}
 

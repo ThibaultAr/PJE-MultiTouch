@@ -31,6 +31,10 @@ public class MTSurface extends JPanel {
 		this.container = new MTContainer();
 	}
 	
+	public MTContainer getContainer() {
+		return this.container;
+	}
+	
 	public void add(MTComponent component) {
 		this.container.add(component);
 	}

@@ -12,6 +12,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
 import mygeom.Vector2;
+import oneDollarRecognizer.GestureEvent;
+import oneDollarRecognizer.GestureEventListener;
 import widget.MTComponent;
 import widget.MTPicture;
 import widget.MTSurface;
@@ -40,6 +42,7 @@ public class Main {
 		pic.setPosition(Math.toRadians(10), new Vector2(500, 500), 200, 200);
 		pic2.setPosition(Math.toRadians(30), new Vector2(400,400), 200, 200);
 
+		surface.getContainer().addGestureEventListener(new MainGestureListener());
 		pic.addDiscreteEventListener(new MainDiscreteListener());
 		pic2.addDiscreteEventListener(new MainDiscreteListener());
 		
@@ -98,6 +101,15 @@ class MainDiscreteListener implements DiscreteEventListener {
 	@Override
 	public void gesturePerformed(DiscreteEvent ev) {
 		((MTComponent) ev.getSource()).click();
+	}
+	
+}
+
+class MainGestureListener implements GestureEventListener {
+	
+	@Override
+	public void gesturePerformed(GestureEvent ev) {
+		System.out.println(ev.getTemplateName() + ", score : " + ev.getScore());
 	}
 	
 }
