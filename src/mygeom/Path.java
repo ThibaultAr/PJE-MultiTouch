@@ -25,7 +25,7 @@ public class Path {
 		this.points.clear();
 	}
 	
-	protected Point2 isoBarycentre() {
+	public Point2 isoBarycentre() {
 		double sumX = 0;
 		double sumY = 0;
 
