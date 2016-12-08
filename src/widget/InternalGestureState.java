@@ -5,10 +5,12 @@ import java.awt.geom.Point2D;
 
 import mygeom.OBB;
 import mygeom.Vector2;
+import oneDollarRecognizer.OneDollarRecognizer;
 
 public class InternalGestureState {
 	protected OBB oldOBB, currentOBB;
 	protected Vector2 oldPos, currentPos, A, B, Ap, Bp;
+	protected OneDollarRecognizer oneDRecognizer; 
 	
 	public InternalGestureState(MTComponent c) {
 		this.oldPos = new Vector2();
@@ -19,6 +21,7 @@ public class InternalGestureState {
 		this.Bp = new Vector2();
 		this.oldOBB = new OBB(); 
 		this.currentOBB = c.getOBB();
+		this.oneDRecognizer = new OneDollarRecognizer();
 	}
 	
 	public void motionTranslateBegin(Vector2 cursor) {
@@ -94,5 +97,9 @@ public class InternalGestureState {
 		Vector2 vP0 = new Vector2(P0.getX(), P0.getY());
 		
 		return (Vector2) vPp0.sub(vP0);
+	}
+
+	public OneDollarRecognizer getOneDRecognizer() {
+		return oneDRecognizer;
 	}
 }

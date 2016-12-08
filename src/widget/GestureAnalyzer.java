@@ -1,12 +1,16 @@
 package widget;
 
 import mygeom.BlobQueue;
+import mygeom.Path;
 import mygeom.Point2;
 import mygeom.Vector2;
+import oneDollarRecognizer.GestureEvent;
 import widget.events.DiscreteEvent;
 import widget.events.SRTEvent;
 
 public class GestureAnalyzer {
+	
+	protected Path gesture;
 	
 	public void analyze(MTComponent comp, BlobQueue bq, String state, int id, Point2 point) {
 		switch(state) {
@@ -23,8 +27,11 @@ public class GestureAnalyzer {
 	}
 	
 	public void add(MTComponent comp, Point2 point, BlobQueue bq) {
-		if(bq.getNbCursor() == 1)
-			comp.gestureState.motionTranslateBegin(new Vector2(point.getX(), point.getY()));
+		if(bq.getNbCursor() == 1) {
+			//comp.gestureState.motionTranslateBegin(new Vector2(point.getX(), point.getY()));
+			this.gesture = new Path();
+			this.gesture.add(point);
+		}
 		if(bq.getNbCursor() == 2) {
 			Point2 cursorA = bq.getCursor(2, 0);
 			Point2 cursorB = bq.getCursor(2, 1);
@@ -34,9 +41,10 @@ public class GestureAnalyzer {
 	
 	public void update(MTComponent comp, Point2 point, BlobQueue bq) {
 		if(bq.getNbCursor() == 1) {
-			comp.gestureState.motionTranslateUpdate(new Vector2(point.getX(), point.getY()));
-			Vector2 translation = comp.gestureState.computeTranslation();
-			comp.fireSRTPerformed(new SRTEvent(comp, translation, 0, 1));			
+			//comp.gestureState.motionTranslateUpdate(new Vector2(point.getX(), point.getY()));
+			//Vector2 translation = comp.gestureState.computeTranslation();
+			//comp.fireSRTPerformed(new SRTEvent(comp, translation, 0, 1));
+			this.gesture.add(point);
 		}
 		if(bq.getNbCursor() == 2) {
 			Point2 cursorA = bq.getCursor(2, 0);
@@ -53,8 +61,10 @@ public class GestureAnalyzer {
 	
 	public void remove(MTComponent comp, Point2 point, BlobQueue bq) {
 		if(bq.getNbCursor() == 1) {
-			Point2 realPoint = bq.getCursor(1, 0);
-			comp.gestureState.motionTranslateBegin(new Vector2(realPoint.getX(), realPoint.getY()));
+			//Point2 realPoint = bq.getCursor(1, 0);
+			//comp.gestureState.motionTranslateBegin(new Vector2(realPoint.getX(), realPoint.getY()));
+			GestureEvent ev = comp.gestureState.getOneDRecognizer().recognize(this.gesture);
+			comp.fireGesturePerformed(ev);
 		}
 		if(bq.getNbCursor() == 2) {
 			Point2 cursorA = bq.getCursor(2, 0);

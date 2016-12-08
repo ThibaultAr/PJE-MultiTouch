@@ -56,4 +56,8 @@ public class Path {
 		
 		g2.draw(p);
 	}
+
+	public List<Point2> getPoints() {
+		return points;
+	}
 }
