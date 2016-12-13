@@ -28,23 +28,22 @@ public class GestureAnalyzer {
 	
 	public void add(MTComponent comp, Point2 point, BlobQueue bq) {
 		if(bq.getNbCursor() == 1) {
-			//comp.gestureState.motionTranslateBegin(new Vector2(point.getX(), point.getY()));
-			this.gesture = new Path();
-			this.gesture.add(point);
+			comp.gestureState.motionTranslateBegin(new Vector2(point.getX(), point.getY()));
 		}
 		if(bq.getNbCursor() == 2) {
 			Point2 cursorA = bq.getCursor(2, 0);
 			Point2 cursorB = bq.getCursor(2, 1);
 			comp.gestureState.motionTRSBegin(new Vector2(cursorA.getX(), cursorA.getY()), new Vector2(cursorB.getX(), cursorB.getY()));
 		}
+		this.gesture = new Path();
+		this.gesture.add(point);
 	}
 	
 	public void update(MTComponent comp, Point2 point, BlobQueue bq) {
 		if(bq.getNbCursor() == 1) {
-			//comp.gestureState.motionTranslateUpdate(new Vector2(point.getX(), point.getY()));
-			//Vector2 translation = comp.gestureState.computeTranslation();
-			//comp.fireSRTPerformed(new SRTEvent(comp, translation, 0, 1));
-			this.gesture.add(point);
+			comp.gestureState.motionTranslateUpdate(new Vector2(point.getX(), point.getY()));
+			Vector2 translation = comp.gestureState.computeTranslation();
+			comp.fireSRTPerformed(new SRTEvent(comp, translation, 0, 1));
 		}
 		if(bq.getNbCursor() == 2) {
 			Point2 cursorA = bq.getCursor(2, 0);
@@ -56,21 +55,29 @@ public class GestureAnalyzer {
 			
 			comp.fireSRTPerformed(new SRTEvent(comp, translation, angle, scale));
 		}
+		this.gesture.add(point);
 		
 	}
 	
 	public void remove(MTComponent comp, Point2 point, BlobQueue bq) {
 		if(bq.getNbCursor() == 1) {
-			//Point2 realPoint = bq.getCursor(1, 0);
-			//comp.gestureState.motionTranslateBegin(new Vector2(realPoint.getX(), realPoint.getY()));
-			GestureEvent ev = comp.gestureState.getOneDRecognizer().recognize(this.gesture);
-			comp.fireGesturePerformed(ev);
+			Point2 realPoint = bq.getCursor(1, 0);
+			comp.gestureState.motionTranslateBegin(new Vector2(realPoint.getX(), realPoint.getY()));
 		}
 		if(bq.getNbCursor() == 2) {
 			Point2 cursorA = bq.getCursor(2, 0);
 			Point2 cursorB = bq.getCursor(2, 1);
 			comp.gestureState.motionTRSBegin(new Vector2(cursorA.getX(), cursorA.getY()), new Vector2(cursorB.getX(), cursorB.getY()));
 		}
+		
+		this.gesture = comp.gestureState.getOneDRecognizer().resample(this.gesture);
+		this.gesture = comp.gestureState.getOneDRecognizer().rotateToZero(this.gesture);
+		this.gesture = comp.gestureState.getOneDRecognizer().scaleToSquare(this.gesture);
+		this.gesture = comp.gestureState.getOneDRecognizer().translateToOrigin(this.gesture);
+		GestureEvent ev = comp.gestureState.getOneDRecognizer().recognize(this.gesture);
+		ev.setNbDoigts(bq.getNbCursor() + 1);
+		ev.setSource(comp);
+		comp.fireGesturePerformed(ev);
 	}
 	
 	

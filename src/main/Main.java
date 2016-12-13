@@ -43,6 +43,7 @@ public class Main {
 		pic2.setPosition(Math.toRadians(30), new Vector2(400,400), 200, 200);
 
 		surface.getContainer().addGestureEventListener(new MainGestureListener());
+		
 		pic.addDiscreteEventListener(new MainDiscreteListener());
 		pic2.addDiscreteEventListener(new MainDiscreteListener());
 		

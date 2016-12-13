@@ -46,4 +46,10 @@ public class BlobQueue {
 		this.cursor.values().toArray(path);
 		return path[id].points.get(path[id].points.size() - 1);
 	}
+	
+	public Path get(int id) {
+		Path[] path = new Path[this.cursor.values().size()];
+		this.cursor.values().toArray(path);
+		return path[id];
+	}
 }

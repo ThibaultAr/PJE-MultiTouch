@@ -5,6 +5,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import main.Main;
 
@@ -59,5 +60,17 @@ public class Path {
 
 	public List<Point2> getPoints() {
 		return points;
+	}
+	
+	public void fromTuples (Vector<Tuple2> tuples) {
+		for(Tuple2 t : tuples)
+			this.add(new Point2(t.getX(), t.getY()));
+	}
+	
+	public Vector<Tuple2> toTuples() {
+		Vector<Tuple2> v = new Vector<Tuple2>();
+		for(Point2 p : this.points)
+			v.add(p);
+		return v;
 	}
 }

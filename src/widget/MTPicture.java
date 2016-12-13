@@ -9,6 +9,8 @@ import javax.imageio.ImageIO;
 
 import mygeom.OBB;
 import mygeom.Vector2;
+import oneDollarRecognizer.GestureEvent;
+import oneDollarRecognizer.GestureEventListener;
 
 public class MTPicture extends MTComponent {
 
@@ -21,11 +23,25 @@ public class MTPicture extends MTComponent {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		this.addGestureEventListener(new PicGestureListener());
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(image, 0, 0, (int) this.obb.getWidth(), (int) this.obb.getHeight(), null);
+		if(this.isVisible()) g.drawImage(image, 0, 0, (int) this.obb.getWidth(), (int) this.obb.getHeight(), null);
 	}
 
+}
+
+class PicGestureListener implements GestureEventListener {
+	
+	@Override
+	public void gesturePerformed(GestureEvent ev) {
+		if(ev.getNbDoigts() == 3) {
+			System.out.println(ev.getTemplateName() + ", score : " + ev.getScore());
+			if(ev.getTemplateName().equals("delete"))
+				((MTPicture) ev.getSource()).setVisible(false);
+		}
+	}
+	
 }
