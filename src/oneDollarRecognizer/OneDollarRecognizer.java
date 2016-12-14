@@ -19,7 +19,6 @@ public class OneDollarRecognizer {
 			Path p = new Path();
 			p.fromTuples(t.getPoints());
 			p = this.resample(p);
-			System.out.println(p.getPoints().size());
 			p = this.rotateToZero(p);
 			p = this.scaleToSquare(p);
 			p = this.translateToOrigin(p);

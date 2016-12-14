@@ -31,16 +31,18 @@ public class Main {
 	public static final int SURFACE_WIDTH = 700;
 	public static final int SURFACE_HEIGHT = 700;
 	
+	private static MTPicture pic;
+	private static MTPicture pic2;
 	
 	private static void createGui() {
 		JFrame frame = new JFrame("appli");
 		MTSurface surface = new MTSurface();
 		JButton cursorVisibleButton = new JButton("Cursor Visible");
-		MTPicture pic = new MTPicture("/data/Bird.jpg", new Vector2 (0,0));
-		MTPicture pic2 = new MTPicture("/data/Snake_River.jpg", new Vector2 (100, 100));
 		
-		pic.setPosition(Math.toRadians(10), new Vector2(500, 500), 200, 200);
-		pic2.setPosition(Math.toRadians(30), new Vector2(400,400), 200, 200);
+		pic = new MTPicture("/data/Bird.jpg", new Vector2 (0,0));
+		pic2 = new MTPicture("/data/Snake_River.jpg", new Vector2 (100, 100));
+		
+		initPictures();
 
 		surface.getContainer().addGestureEventListener(new MainGestureListener());
 		
@@ -82,6 +84,14 @@ public class Main {
 		frame.pack();
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	public static void initPictures() {
+		pic.setPosition(Math.toRadians(10), new Vector2(500, 500), 200, 200);
+		pic2.setPosition(Math.toRadians(30), new Vector2(400,400), 200, 200);
+		
+		pic.setVisible(true);
+		pic2.setVisible(true);
 	}
 	
 	public static void main(String args[]) {

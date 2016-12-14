@@ -7,13 +7,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import main.Main;
 import mygeom.OBB;
 import mygeom.Point2;
 import mygeom.Vector2;
+import oneDollarRecognizer.GestureEvent;
+import oneDollarRecognizer.GestureEventListener;
 
 public class MTContainer extends MTComponent {
 	protected List<MTComponent> components = new ArrayList<MTComponent>();
-
+	
+	public MTContainer() {
+		this.addGestureEventListener(new ContainerGestureEventListener());
+	}
+	
 	public void add(MTComponent component) {
 		this.components.add(component);
 	}
@@ -48,4 +55,14 @@ public class MTContainer extends MTComponent {
 		this.components.remove(comp);
 		this.components.add(comp);
 	}
+}
+
+class ContainerGestureEventListener implements GestureEventListener {
+
+	@Override
+	public void gesturePerformed(GestureEvent e) {
+		if(e.getTemplateName().equals("circle"))
+			Main.initPictures();
+	}
+	
 }
