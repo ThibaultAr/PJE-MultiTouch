@@ -11,6 +11,9 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
+import mygeom.DebugDraw;
+import mygeom.Point2;
+import mygeom.Segment2;
 import mygeom.Vector2;
 import oneDollarRecognizer.GestureEvent;
 import oneDollarRecognizer.GestureEventListener;

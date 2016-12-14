@@ -10,6 +10,10 @@ public class Vector2 extends Tuple2 {
 		super(a);
 	}
 	
+	public Vector2(Segment2 s) {
+		super(new Point2((Point2)s.end.sub(s.init)));
+	}
+	
 	public Vector2(double x,double y) {
 		super(x,y);
 	}
@@ -22,8 +26,16 @@ public class Vector2 extends Tuple2 {
 		return this.x * v.y - this.y * v.x;
 	}
 	
+	public double det(Vector2 v) {
+		return this.determinant(v);
+	}
+	
+	public double length() {
+		return Math.sqrt(x * x + y * y);
+	}
+	
 	public Vector2 normalize() {
-		double longueur = Math.sqrt(x * x + y * y);
+		double longueur = this.length();
 		
 		this.x = this.x / longueur;			
 		this.y = this.y / longueur;

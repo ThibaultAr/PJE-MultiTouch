@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.event.EventListenerList;
 
 import mygeom.BlobQueue;
+import mygeom.DebugDraw;
 import mygeom.Point2;
 import tuio.MTedt;
 import widget.events.ChangedSideEvent;
@@ -29,6 +30,7 @@ public class MTSurface extends JPanel {
 		this.edt = new MTedt(this);
 		this.listenerList = new EventListenerList();
 		this.container = new MTContainer();
+		DebugDraw.init();
 	}
 	
 	public MTContainer getContainer() {
@@ -58,6 +60,7 @@ public class MTSurface extends JPanel {
 		// drawing instructions with g2.
 		this.container.draw(g2);
 		if(this.cursorVisible) this.Cmap.draw(g2);
+		DebugDraw.draw(g2);
 	}
 	
 	public void switchCursorVisible() {
