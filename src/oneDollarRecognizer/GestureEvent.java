@@ -2,16 +2,20 @@ package oneDollarRecognizer;
 
 import java.util.EventObject;
 
+import mygeom.Path;
+
 public class GestureEvent extends EventObject {
 	protected String templateName;
 	protected double score;
 	protected int nbDoigts;
+	protected Path path;
 	
-	public GestureEvent(Object source, String templateName, double score) {
+	public GestureEvent(Object source, String templateName, double score, Path path) {
 		super(source);
 		this.templateName = templateName;
 		this.score = score;
 		this.nbDoigts = 0;
+		this.path = path;
 	}
 
 	public String getTemplateName() {
@@ -32,5 +36,9 @@ public class GestureEvent extends EventObject {
 	
 	public void setSource(Object o) {
 		this.source = o;
+	}
+	
+	public Path getPath() {
+		return this.path;
 	}
 }

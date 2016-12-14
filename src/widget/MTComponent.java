@@ -9,6 +9,7 @@ import javax.swing.JComponent;
 
 import main.Main;
 import mygeom.OBB;
+import mygeom.Path;
 import mygeom.Point2;
 import mygeom.Vector2;
 import oneDollarRecognizer.GestureEvent;
@@ -22,10 +23,13 @@ public abstract class MTComponent extends JComponent {
 	protected OBB obb;
 	protected MTContainer container;
 	protected InternalGestureState gestureState;
+	protected Path path;
 
 	public MTComponent() {
 		this.obb = new OBB();
-		this.gestureState = new InternalGestureState(this); 
+		this.gestureState = new InternalGestureState(this);
+		this.path = new Path();
+		this.addGestureEventListener(new ComponentGestureEventListener());
 	}
 	
 	public abstract void draw(Graphics2D g);
@@ -132,4 +136,17 @@ public abstract class MTComponent extends JComponent {
 			return false;
 		return true;
 	}
+	
+	public Path getPath() {
+		return this.path;
+	}
+}
+
+class ComponentGestureEventListener implements GestureEventListener {
+	
+	@Override
+	public void gesturePerformed(GestureEvent e) {
+		((MTComponent) e.getSource()).path = e.getPath();
+	}
+	
 }

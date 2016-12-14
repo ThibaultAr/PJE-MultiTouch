@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
 import mygeom.DebugDraw;
+import mygeom.InertialMatrix;
 import mygeom.Point2;
 import mygeom.Segment2;
 import mygeom.Vector2;
@@ -76,6 +77,10 @@ public class Main {
 				surface.switchCursorVisible();
 			}
 		});
+		
+		InertialMatrix matrix = new InertialMatrix();
+		matrix.addPath(surface.getContainer().getPath());
+		matrix.getOBB();
 		
 		frame.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		
