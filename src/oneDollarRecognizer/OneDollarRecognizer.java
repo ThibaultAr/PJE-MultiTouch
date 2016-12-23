@@ -150,7 +150,7 @@ public class OneDollarRecognizer {
 			}
 		}
 		double score = 1 - b / (0.5 * Math.sqrt(this.size * this.size + this.size * this.size));
-		return new GestureEvent(this, t2.getName(), score, points);
+		return new GestureEvent(this, t2.getName(), score);
 	}
 
 	public double distanceAtAngle(Path points, Template t) {

@@ -2,12 +2,14 @@ package mygeom;
 
 import java.awt.Color;
 
+import main.Main;
+
 public class InertialMatrix {
 	
 	public Path path;
 	private final int size = 64;
 	
-	public void addPath(Path path) {
+	public void setPath(Path path) {
 		this.path = path;
 	}
 	
@@ -58,21 +60,27 @@ public class InertialMatrix {
 		
 		double a = 0, b = 0, f = 0;
 		
+		this.path = this.resample(path);
+		Point2 centroid = new Point2(path.isoBarycentre());
+		
 		for(Point2 p : path.getPoints()) {
-			a += p.y * p.y;
-			b += p.x * p.x;
-			f += p.x * p.y;
+			a += (p.y - centroid.y) * (p.y - centroid.y);
+			b += (p.x - centroid.x) * (p.x - centroid.x);
+			f += (p.x - centroid.x) * (p.y - centroid.y);
 		}
 		
 		double r1 = (a + b - Math.sqrt((a - b) * (a - b) + 4 * (f * f))) / 2;
 		double r2 = (a + b + Math.sqrt((a - b) * (a - b) + 4 * (f * f))) / 2;
 		
-		Vector2 u = new Vector2(-f, -a + r1).normalize();
-		Vector2 v = new Vector2(-f, -a + r2).normalize();
+		Vector2 u = new Vector2(-f, -a + r1).normalize().mul(50);
+		Vector2 v = new Vector2(-f, -a + r2).normalize().mul(50);
 		
-		DebugDraw.add(new Segment2(new Point2(path.isoBarycentre()), u), 3, Color.red);
-		DebugDraw.add(new Segment2(new Point2(path.isoBarycentre()), v), 3, Color.green);
+		centroid.x *= Main.SURFACE_WIDTH;
+		centroid.y *= Main.SURFACE_HEIGHT;
 		
+		DebugDraw.add(new Segment2(centroid, u), 3, Color.red);
+		DebugDraw.add(new Segment2(centroid, v), 3, Color.green);
+		  
 		return obb;
 	}
 }

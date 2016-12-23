@@ -34,6 +34,12 @@ public class Vector2 extends Tuple2 {
 		return Math.sqrt(x * x + y * y);
 	}
 	
+	public Vector2 mul(double scalar) {
+		this.x *= scalar;
+		this.y *= scalar;
+		return this;
+	}
+	
 	public Vector2 normalize() {
 		double longueur = this.length();
 		

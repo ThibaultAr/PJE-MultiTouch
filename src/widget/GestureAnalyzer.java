@@ -70,6 +70,8 @@ public class GestureAnalyzer {
 			comp.gestureState.motionTRSBegin(new Vector2(cursorA.getX(), cursorA.getY()), new Vector2(cursorB.getX(), cursorB.getY()));
 		}
 		
+		Path path = new Path(gesture);
+		
 		this.gesture = comp.gestureState.getOneDRecognizer().resample(this.gesture);
 		this.gesture = comp.gestureState.getOneDRecognizer().rotateToZero(this.gesture);
 		this.gesture = comp.gestureState.getOneDRecognizer().scaleToSquare(this.gesture);
@@ -77,6 +79,7 @@ public class GestureAnalyzer {
 		GestureEvent ev = comp.gestureState.getOneDRecognizer().recognize(this.gesture);
 		ev.setNbDoigts(bq.getNbCursor() + 1);
 		ev.setSource(comp);
+		ev.setPath(path);
 		comp.fireGesturePerformed(ev);
 	}
 	

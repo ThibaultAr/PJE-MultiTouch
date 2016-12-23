@@ -10,12 +10,12 @@ public class GestureEvent extends EventObject {
 	protected int nbDoigts;
 	protected Path path;
 	
-	public GestureEvent(Object source, String templateName, double score, Path path) {
+	public GestureEvent(Object source, String templateName, double score) {
 		super(source);
 		this.templateName = templateName;
 		this.score = score;
 		this.nbDoigts = 0;
-		this.path = path;
+		this.path = new Path();
 	}
 
 	public String getTemplateName() {
@@ -36,6 +36,10 @@ public class GestureEvent extends EventObject {
 	
 	public void setSource(Object o) {
 		this.source = o;
+	}
+	
+	public void setPath(Path path) {
+		this.path = path;
 	}
 	
 	public Path getPath() {

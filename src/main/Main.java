@@ -11,10 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
-import mygeom.DebugDraw;
 import mygeom.InertialMatrix;
-import mygeom.Point2;
-import mygeom.Segment2;
 import mygeom.Vector2;
 import oneDollarRecognizer.GestureEvent;
 import oneDollarRecognizer.GestureEventListener;
@@ -37,6 +34,8 @@ public class Main {
 	
 	private static MTPicture pic;
 	private static MTPicture pic2;
+	
+	public static final InertialMatrix inertialMatrix = new InertialMatrix();
 	
 	private static void createGui() {
 		JFrame frame = new JFrame("appli");
@@ -78,9 +77,6 @@ public class Main {
 			}
 		});
 		
-		InertialMatrix matrix = new InertialMatrix();
-		matrix.addPath(surface.getContainer().getPath());
-		matrix.getOBB();
 		
 		frame.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		

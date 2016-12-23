@@ -11,9 +11,20 @@ import main.Main;
 
 public class Path {
 
-	protected List<Point2> points = new ArrayList<Point2>();
+	protected List<Point2> points;
 	protected int cursorId;
-
+	
+	public Path() {
+		points = new ArrayList<Point2>();
+	}
+	
+	public Path(Path path)	{
+		this();
+		for(Point2 p : path.getPoints()) {
+			this.add(p);
+		}
+	}
+	
 	public void add(Point2 p) {
 		this.points.add(p); 
 	}

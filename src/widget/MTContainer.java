@@ -18,6 +18,7 @@ public class MTContainer extends MTComponent {
 	protected List<MTComponent> components = new ArrayList<MTComponent>();
 	
 	public MTContainer() {
+		super();
 		this.addGestureEventListener(new ContainerGestureEventListener());
 	}
 	
@@ -63,6 +64,10 @@ class ContainerGestureEventListener implements GestureEventListener {
 	public void gesturePerformed(GestureEvent e) {
 		if(e.getTemplateName().equals("circle"))
 			Main.initPictures();
+//		else if(e.getTemplateName().equals("rectangle")) {
+			Main.inertialMatrix.setPath(e.getPath());
+			Main.inertialMatrix.getOBB();
+//		}
 	}
 	
 }
