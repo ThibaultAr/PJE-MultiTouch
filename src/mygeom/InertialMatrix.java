@@ -57,6 +57,19 @@ public class InertialMatrix {
 		return newPoints;
 	}
 	
+	private AffineTransform computeFrame(Point2 dst1, Vector2 v) {
+		AffineTransform res = new AffineTransform();
+		
+		Vector2 i = new Vector2(v.x, v.y);
+		i.normalize();
+		Point2 j = new Point2();
+		j.x = -i.y;
+		j.y = i.x;
+		res.setTransform(i.x, i.y, j.x, j.y, dst1.x, dst1.y);
+		
+		return res;
+	}
+	
 	public OBB getOBB() {
 		OBB obb = new OBB();
 		
@@ -85,19 +98,11 @@ public class InertialMatrix {
 		DebugDraw.add(new Segment2(c, new Vector2(u).mul(50)), 3, Color.red);
 		DebugDraw.add(new Segment2(c, new Vector2(v).mul(50)), 3, Color.green);
 		
-		AffineTransform transform = new AffineTransform();
-		transform.setToTranslation(centroid.x, centroid.y);
-				
-		double dot = new Vector2(1,0).dot(v);
-		double det = new Vector2(1,0).determinant(v);
+		// Determination du meilleur vecteur
+		Vector2 bestVector = u;
+		if(v.x * v.x > u.x * u.x) bestVector = v;
 		
-		if(dot > 1) dot = 1;
-		
-		double angle = Math.signum(det) * Math.acos(dot);
-		transform.rotate(angle);
-		
-		double scale = u.length() / new Vector2(1,0).length();
-		transform.scale(scale, scale);
+		AffineTransform transform = this.computeFrame(centroid, bestVector);
 		
 		double minX = Double.MAX_VALUE;
 		double maxX = Double.MIN_VALUE;
