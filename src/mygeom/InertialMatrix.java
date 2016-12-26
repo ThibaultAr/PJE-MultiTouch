@@ -70,8 +70,9 @@ public class InertialMatrix {
 		return res;
 	}
 	
-	private Vector2 obbOrigin(Point2 firstPoint, Point2 p1, Point2 p2, Point2 p3, Point2 p4) {
+	private Vector2 obbOrigin(Point2 p1, Point2 p2, Point2 p3, Point2 p4) {
 		Vector2 res = new Vector2();
+		Point2 firstPoint = new Point2();
 		
 		double min = p1.dist(firstPoint);
 		Point2 bestPoint = p1;
@@ -95,6 +96,21 @@ public class InertialMatrix {
 		res.y = bestPoint.y;
 		
 		return res;
+	}
+	
+	private double obbAngle(Vector2 o, Vector2 bestVector) {
+		double delta1 = Math.atan2(o.y, bestVector.x);
+		double delta2 = Math.atan2(o.y, -bestVector.x);
+		
+		Vector2 v = bestVector;
+		
+		if(delta1 < delta2) {
+			v = new Vector2(bestVector);
+			v.x = -bestVector.x;
+			v.y = -bestVector.y;
+		}
+		
+		return Math.atan2(v.y, 1);
 	}
 	
 	public OBB getOBB() {
@@ -173,9 +189,12 @@ public class InertialMatrix {
 		DebugDraw.add(new Segment2(new Point2(p2).toPixels(), new Point2(p4).toPixels()), 3, Color.black);
 		DebugDraw.add(new Segment2(new Point2(p3).toPixels(), new Point2(p4).toPixels()), 3, Color.black);
 		
-		obb.origin = this.obbOrigin(path.getPoints().get(0), p1, p2, p3, p4);
-		obb.width = width;
-		obb.height = height;
+		Vector2 o = new Vector2(obb.origin.x - centroid.x, obb.origin.y - centroid.y);
+
+		obb.origin = this.obbOrigin(p1, p2, p3, p4);
+		obb.width = width * Main.SURFACE_WIDTH;
+		obb.height = height * Main.SURFACE_HEIGHT;
+		obb.angle = this.obbAngle(o, bestVector);
 		
 		return obb;
 	}

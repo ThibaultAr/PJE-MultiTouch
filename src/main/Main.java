@@ -24,6 +24,8 @@ import widget.events.DiscreteEvent;
 import widget.events.DiscreteEventListener;
 import widget.events.SRTEvent;
 import widget.events.SRTEventListener;
+import widget.listeners.MainDiscreteListener;
+import widget.listeners.MainSRTListener;
 
 public class Main {
 
@@ -34,16 +36,18 @@ public class Main {
 	
 	private static MTPicture pic;
 	private static MTPicture pic2;
+	public static MTSurface surface;
+	public static JFrame frame;
 	
 	public static final InertialMatrix inertialMatrix = new InertialMatrix();
 	
 	private static void createGui() {
-		JFrame frame = new JFrame("appli");
-		MTSurface surface = new MTSurface();
+		frame = new JFrame("appli");
+		surface = new MTSurface();
 		JButton cursorVisibleButton = new JButton("Cursor Visible");
 		
-		pic = new MTPicture("/data/Bird.jpg", new Vector2 (0,0));
-		pic2 = new MTPicture("/data/Snake_River.jpg", new Vector2 (100, 100));
+		pic = new MTPicture("/data/Bird.jpg");
+		pic2 = new MTPicture("/data/Snake_River.jpg");
 		
 		initPictures();
 
@@ -111,29 +115,11 @@ public class Main {
 	
 }
 
-class MainDiscreteListener implements DiscreteEventListener {
-	
-	@Override
-	public void gesturePerformed(DiscreteEvent ev) {
-		((MTComponent) ev.getSource()).click();
-	}
-	
-}
-
 class MainGestureListener implements GestureEventListener {
 	
 	@Override
 	public void gesturePerformed(GestureEvent ev) {
 		System.out.println(ev.getTemplateName() + ", score : " + ev.getScore());
-	}
-	
-}
-
-class MainSRTListener implements SRTEventListener {
-
-	@Override
-	public void gesturePerformed(SRTEvent ev) {
-		((MTComponent) ev.getSource()).updatePosition(ev.getTranslation(), ev.getAngle(), ev.getScale());
 	}
 	
 }

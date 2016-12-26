@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -16,7 +17,7 @@ public class MTPicture extends MTComponent {
 
 	private BufferedImage image;
 
-	public MTPicture(String name, Vector2 origin) {
+	public MTPicture(String name) {
 		super();
 		try {
 			this.image = ImageIO.read(new File(new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath()).getParent() + name));
@@ -24,6 +25,21 @@ public class MTPicture extends MTComponent {
 			e.printStackTrace();
 		}
 		this.addGestureEventListener(new PicGestureListener());
+	}
+	
+	public MTPicture() {
+		super();
+		
+		File file = new File(new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath()).getParent() + "/data");
+		String[] imageNames = file.list();
+		Random random = new Random();
+		String name = imageNames[random.nextInt(imageNames.length)];
+		
+		try {
+			this.image = ImageIO.read(new File(file.getAbsolutePath() + "/" + name));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
