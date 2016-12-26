@@ -70,6 +70,33 @@ public class InertialMatrix {
 		return res;
 	}
 	
+	private Vector2 obbOrigin(Point2 firstPoint, Point2 p1, Point2 p2, Point2 p3, Point2 p4) {
+		Vector2 res = new Vector2();
+		
+		double min = p1.dist(firstPoint);
+		Point2 bestPoint = p1;
+		
+		if(p2.dist(firstPoint) < min) {
+			min = p2.dist(firstPoint);
+			bestPoint = p2;
+		}
+		
+		if(p3.dist(firstPoint) < min) {
+			min = p3.dist(firstPoint);
+			bestPoint = p3;
+		}
+		
+		if(p4.dist(firstPoint) < min) {
+			min = p4.dist(firstPoint);
+			bestPoint = p4;
+		}
+		
+		res.x = bestPoint.x;
+		res.y = bestPoint.y;
+		
+		return res;
+	}
+	
 	public OBB getOBB() {
 		OBB obb = new OBB();
 		
@@ -91,9 +118,7 @@ public class InertialMatrix {
 		Vector2 v = new Vector2(-f, -a + r2).normalize();
 		
 		
-		Point2 c = new Point2(centroid);
-		c.x *= Main.SURFACE_WIDTH;
-		c.y *= Main.SURFACE_HEIGHT;
+		Point2 c = new Point2(centroid).toPixels();
 		
 		DebugDraw.add(new Segment2(c, new Vector2(u).mul(50)), 3, Color.red);
 		DebugDraw.add(new Segment2(c, new Vector2(v).mul(50)), 3, Color.green);
@@ -138,15 +163,19 @@ public class InertialMatrix {
 		transform.transform(y1, y1P);
 		transform.transform(y2, y2P);
 		
-		Point2 p1 = new Point2(x1P.getX() * Main.SURFACE_WIDTH, x1P.getY() * Main.SURFACE_HEIGHT);
-		Point2 p2 = new Point2(x2P.getX() * Main.SURFACE_WIDTH, x2P.getY() * Main.SURFACE_HEIGHT);
-		Point2 p3 = new Point2(y1P.getX() * Main.SURFACE_WIDTH, y1P.getY() * Main.SURFACE_HEIGHT);
-		Point2 p4 = new Point2(y2P.getX() * Main.SURFACE_WIDTH, y2P.getY() * Main.SURFACE_HEIGHT);
+		Point2 p1 = new Point2(x1P.getX(), x1P.getY());
+		Point2 p2 = new Point2(x2P.getX(), x2P.getY());
+		Point2 p3 = new Point2(y1P.getX(), y1P.getY());
+		Point2 p4 = new Point2(y2P.getX(), y2P.getY());
 		
-		DebugDraw.add(new Segment2(p1, p2), 3, Color.black);
-		DebugDraw.add(new Segment2(p1, p3), 3, Color.black);
-		DebugDraw.add(new Segment2(p2, p4), 3, Color.black);
-		DebugDraw.add(new Segment2(p3, p4), 3, Color.black);
+		DebugDraw.add(new Segment2(new Point2(p1).toPixels(), new Point2(p2).toPixels()), 3, Color.black);
+		DebugDraw.add(new Segment2(new Point2(p1).toPixels(), new Point2(p3).toPixels()), 3, Color.black);
+		DebugDraw.add(new Segment2(new Point2(p2).toPixels(), new Point2(p4).toPixels()), 3, Color.black);
+		DebugDraw.add(new Segment2(new Point2(p3).toPixels(), new Point2(p4).toPixels()), 3, Color.black);
+		
+		obb.origin = this.obbOrigin(path.getPoints().get(0), p1, p2, p3, p4);
+		obb.width = width;
+		obb.height = height;
 		
 		return obb;
 	}
