@@ -5,7 +5,9 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.Main;
 import mygeom.OBB;
+import mygeom.Path;
 import mygeom.Point2;
 import mygeom.Vector2;
 import oneDollarRecognizer.OneDollarRecognizer;
@@ -14,7 +16,7 @@ public class InternalGestureState {
 	protected OBB oldOBB, currentOBB;
 	protected Vector2 oldPos, currentPos, A, B, Ap, Bp;
 	protected OneDollarRecognizer oneDRecognizer;
-	protected List<Point2> oldCursors, currentCursors;
+	protected Vector2 oldEigenVector, currentEigenVector;
 	
 	public InternalGestureState(MTComponent c) {
 		this.oldPos = new Vector2();
@@ -104,24 +106,35 @@ public class InternalGestureState {
 	}
 	
 	public void motionLastTRSBegin(List<Point2> cursors) {
-		currentCursors = new ArrayList<Point2>(cursors);
+		Main.inertialMatrix.setPath(new Path(cursors));
+		this.currentEigenVector = Main.inertialMatrix.getTRSVector();
 	}
 	
 	public void motionLastTRSUpdate(List<Point2> cursors) {
-		oldCursors = new ArrayList<Point2>(currentCursors);
-		currentCursors = new ArrayList<Point2>(cursors);
+		Main.inertialMatrix.setPath(new Path(cursors));
+		this.oldEigenVector = new Vector2(this.currentEigenVector);
+		
+		this.currentEigenVector = Main.inertialMatrix.getTRSVector();
+		if(this.oldEigenVector.dot(currentEigenVector) < 0) this.currentEigenVector.mul(-1);
 	}
 	
 	public double computeLastTRSAngle() {
-		return 0;
+		double dot = this.oldEigenVector.dot(this.currentEigenVector);
+		double det = this.oldEigenVector.determinant(this.currentEigenVector);
+		
+		if(dot > 1) dot = 1;
+		
+		return Math.signum(det) * Math.acos(dot);
 	}
 	
 	public double computeLastTRSScale() {
-		return 0;
+		return 1;
 	}
 	
 	public Vector2 computeLastTRSTranslate() {
-		return null;
+//		Main.inertialMatrix.setPath(new Path(this.currentCursors));
+//		Main.inertialMatrix.getTRSVector();
+		return new Vector2(0, 0);
 	}
 
 	public OneDollarRecognizer getOneDRecognizer() {

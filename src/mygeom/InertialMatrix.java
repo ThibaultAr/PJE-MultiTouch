@@ -57,6 +57,10 @@ public class InertialMatrix {
 		return newPoints;
 	}
 	
+	public Point2 centroid() {
+		return this.path.isoBarycentre();
+	}
+	
 	private AffineTransform computeFrame(Point2 dst1, Vector2 v) {
 		AffineTransform res = new AffineTransform();
 		
@@ -198,5 +202,26 @@ public class InertialMatrix {
 		obb.angle = this.obbAngle(o, bestVector);
 		
 		return obb;
+	}
+	
+	public Vector2 getTRSVector() {
+		DebugDraw.clear();
+		double a = 0, b = 0, f = 0;
+		
+		this.path = this.resample(path);
+		Point2 centroid = new Point2(path.isoBarycentre());
+		
+		for(Point2 p : path.getPoints()) {
+			a += (p.y - centroid.y) * (p.y - centroid.y);
+			b += (p.x - centroid.x) * (p.x - centroid.x);
+			f += (p.x - centroid.x) * (p.y - centroid.y);
+		}
+		
+		double r1 = (a + b - Math.sqrt((a - b) * (a - b) + 4 * (f * f))) / 2;
+		Vector2 u = new Vector2(-f, -a + r1).normalize();
+		Point2 c = new Point2(centroid).toPixels();
+		
+		DebugDraw.add(new Segment2(c, new Vector2(u).mul(50)), 3, Color.red);
+		return u;
 	}
 }

@@ -19,8 +19,12 @@ public class Path {
 	}
 	
 	public Path(Path path)	{
+		this(path.getPoints());
+	}
+	
+	public Path(List<Point2> points) {
 		this();
-		for(Point2 p : path.getPoints()) {
+		for(Point2 p : points) {
 			this.add(new Point2(p));
 		}
 	}
