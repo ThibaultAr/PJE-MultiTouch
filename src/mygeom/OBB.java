@@ -15,6 +15,10 @@ public class OBB {
 		this.height = height;
 	}
 	
+	public OBB(OBB obb) {
+		this(obb.angle, new Vector2(obb.origin), obb.width, obb.height);
+	}
+	
 	public OBB() {
 //		super();
 		this(0, new Vector2(), 0, 0);

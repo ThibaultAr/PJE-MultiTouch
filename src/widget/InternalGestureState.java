@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.Main;
+import mygeom.InertialMatrix;
 import mygeom.OBB;
 import mygeom.Path;
 import mygeom.Point2;
@@ -17,6 +18,8 @@ public class InternalGestureState {
 	protected Vector2 oldPos, currentPos, A, B, Ap, Bp;
 	protected OneDollarRecognizer oneDRecognizer;
 	protected Vector2 oldEigenVector, currentEigenVector;
+	protected Point2 oldCentroid, currentCentroid;
+	protected OBB oldMatrixOBB, currentMatrixOBB;
 	
 	public InternalGestureState(MTComponent c) {
 		this.oldPos = new Vector2();
@@ -106,8 +109,11 @@ public class InternalGestureState {
 	}
 	
 	public void motionLastTRSBegin(List<Point2> cursors) {
-		Main.inertialMatrix.setPath(new Path(cursors));
+		Path path = new Path(cursors);
+		Main.inertialMatrix.setPath(path);
 		this.currentEigenVector = Main.inertialMatrix.getTRSVector();
+		this.currentCentroid = Main.inertialMatrix.centroid();
+		this.currentMatrixOBB = Main.inertialMatrix.getOBB();
 	}
 	
 	public void motionLastTRSUpdate(List<Point2> cursors) {
@@ -116,6 +122,10 @@ public class InternalGestureState {
 		
 		this.currentEigenVector = Main.inertialMatrix.getTRSVector();
 		if(this.oldEigenVector.dot(currentEigenVector) < 0) this.currentEigenVector.mul(-1);
+		this.oldCentroid = new Point2(this.currentCentroid);
+		this.currentCentroid = Main.inertialMatrix.centroid();
+		this.oldMatrixOBB = new OBB(currentMatrixOBB);
+		this.currentMatrixOBB = Main.inertialMatrix.getOBB();
 	}
 	
 	public double computeLastTRSAngle() {
@@ -128,13 +138,38 @@ public class InternalGestureState {
 	}
 	
 	public double computeLastTRSScale() {
-		return 1;
+		double oldWidth = this.oldMatrixOBB.getWidth();
+		double oldHeight = this.oldMatrixOBB.getHeight();
+		double width = this.currentMatrixOBB.getWidth();
+		double height = this.currentMatrixOBB.getHeight();
+		
+		double l1 = Math.sqrt(oldWidth * oldWidth + oldHeight * oldHeight);
+		double l2 = Math.sqrt(width * width + height * height);
+		
+		return l2 / l1;
 	}
 	
 	public Vector2 computeLastTRSTranslate() {
-//		Main.inertialMatrix.setPath(new Path(this.currentCursors));
-//		Main.inertialMatrix.getTRSVector();
-		return new Vector2(0, 0);
+		AffineTransform transform = new AffineTransform();
+		double angle = this.computeLastTRSAngle();
+		double scale = this.computeLastTRSScale();
+		
+		
+		transform.setToTranslation(oldCentroid.getX(), oldCentroid.getY());
+		transform.translate(currentCentroid.getX() - oldCentroid.getX(), currentCentroid.getY() - oldCentroid.getY());
+		transform.rotate(angle);
+		transform.scale(scale, scale);
+		transform.translate(-oldCentroid.getX(), -oldCentroid.getY());
+		
+		Point2D P0 = new Point2D.Double(this.currentOBB.getNormalizeX(), this.currentOBB.getNormalizeY());
+		Point2D Pp0 = new Point2D.Double();
+		
+		transform.transform(P0, Pp0);
+		
+		Vector2 vPp0 = new Vector2(Pp0.getX(), Pp0.getY());
+		Vector2 vP0 = new Vector2(P0.getX(), P0.getY());
+		
+		return (Vector2) vPp0.sub(vP0);
 	}
 
 	public OneDollarRecognizer getOneDRecognizer() {
