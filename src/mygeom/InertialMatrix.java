@@ -114,6 +114,7 @@ public class InertialMatrix {
 	}
 	
 	public OBB getOBB() {
+		DebugDraw.clear();
 		OBB obb = new OBB();
 		
 		double a = 0, b = 0, f = 0;

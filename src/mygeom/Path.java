@@ -21,7 +21,7 @@ public class Path {
 	public Path(Path path)	{
 		this();
 		for(Point2 p : path.getPoints()) {
-			this.add(p);
+			this.add(new Point2(p));
 		}
 	}
 	

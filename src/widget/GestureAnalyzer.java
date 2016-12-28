@@ -1,5 +1,8 @@
 package widget;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import mygeom.BlobQueue;
 import mygeom.Path;
 import mygeom.Point2;
@@ -27,31 +30,53 @@ public class GestureAnalyzer {
 	}
 	
 	public void add(MTComponent comp, Point2 point, BlobQueue bq) {
-		if(bq.getNbCursor() == 1) {
+		int nbCursors = bq.getNbCursor();
+		if(nbCursors == 1) {
 			comp.gestureState.motionTranslateBegin(new Vector2(point.getX(), point.getY()));
 		}
-		if(bq.getNbCursor() == 2) {
-			Point2 cursorA = bq.getCursor(2, 0);
-			Point2 cursorB = bq.getCursor(2, 1);
+		if(nbCursors == 2) {
+			Point2 cursorA = bq.getCursor(nbCursors, 0);
+			Point2 cursorB = bq.getCursor(nbCursors, 1);
 			comp.gestureState.motionTRSBegin(new Vector2(cursorA.getX(), cursorA.getY()), new Vector2(cursorB.getX(), cursorB.getY()));
+		}
+		if(nbCursors > 2) {
+			List<Point2> cursors = new ArrayList<Point2>();
+			for(int i = 0; i < nbCursors; i++) {
+				cursors.add(new Point2(bq.getCursor(nbCursors, i)));
+			}
+			
+			comp.gestureState.motionLastTRSBegin(cursors);
 		}
 		this.gesture = new Path();
 		this.gesture.add(point);
 	}
 	
 	public void update(MTComponent comp, Point2 point, BlobQueue bq) {
-		if(bq.getNbCursor() == 1) {
+		int nbCursors = bq.getNbCursor();
+		if(nbCursors == 1) {
 			comp.gestureState.motionTranslateUpdate(new Vector2(point.getX(), point.getY()));
 			Vector2 translation = comp.gestureState.computeTranslation();
 			comp.fireSRTPerformed(new SRTEvent(comp, translation, 0, 1));
 		}
-		if(bq.getNbCursor() == 2) {
-			Point2 cursorA = bq.getCursor(2, 0);
-			Point2 cursorB = bq.getCursor(2, 1);
+		if(nbCursors == 2) {
+			Point2 cursorA = bq.getCursor(nbCursors, 0);
+			Point2 cursorB = bq.getCursor(nbCursors, 1);
 			comp.gestureState.motionTRSUpdate(new Vector2(cursorA.getX(), cursorA.getY()), new Vector2(cursorB.getX(), cursorB.getY()));
 			double scale = comp.gestureState.computeTRSScale();
 			double angle = comp.gestureState.computeTRSRotation();
 			Vector2 translation = comp.gestureState.computeTRSTranslate();
+			
+			comp.fireSRTPerformed(new SRTEvent(comp, translation, angle, scale));
+		}
+		if(nbCursors > 2) {
+			List<Point2> cursors = new ArrayList<Point2>();
+			for(int i = 0; i < nbCursors; i++) {
+				cursors.add(new Point2(bq.getCursor(nbCursors, i)));
+			}
+			comp.gestureState.motionLastTRSUpdate(cursors);
+			double scale = comp.gestureState.computeLastTRSScale();
+			double angle = comp.gestureState.computeLastTRSAngle();
+			Vector2 translation = comp.gestureState.computeLastTRSTranslate();
 			
 			comp.fireSRTPerformed(new SRTEvent(comp, translation, angle, scale));
 		}
@@ -60,14 +85,23 @@ public class GestureAnalyzer {
 	}
 	
 	public void remove(MTComponent comp, Point2 point, BlobQueue bq) {
-		if(bq.getNbCursor() == 1) {
+		int nbCursors = bq.getNbCursor();
+		if(nbCursors == 1) {
 			Point2 realPoint = bq.getCursor(1, 0);
 			comp.gestureState.motionTranslateBegin(new Vector2(realPoint.getX(), realPoint.getY()));
 		}
-		if(bq.getNbCursor() == 2) {
-			Point2 cursorA = bq.getCursor(2, 0);
-			Point2 cursorB = bq.getCursor(2, 1);
+		if(nbCursors == 2) {
+			Point2 cursorA = bq.getCursor(nbCursors, 0);
+			Point2 cursorB = bq.getCursor(nbCursors, 1);
 			comp.gestureState.motionTRSBegin(new Vector2(cursorA.getX(), cursorA.getY()), new Vector2(cursorB.getX(), cursorB.getY()));
+		}
+		if(nbCursors > 2) {
+			List<Point2> cursors = new ArrayList<Point2>();
+			for(int i = 0; i < nbCursors; i++) {
+				cursors.add(new Point2(bq.getCursor(nbCursors, i)));
+			}
+			
+			comp.gestureState.motionLastTRSBegin(cursors);
 		}
 		
 		Path path = new Path(gesture);

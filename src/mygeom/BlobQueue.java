@@ -1,6 +1,7 @@
 package mygeom;
 
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -51,5 +52,9 @@ public class BlobQueue {
 		Path[] path = new Path[this.cursor.values().size()];
 		this.cursor.values().toArray(path);
 		return path[id];
+	}
+	
+	public List<Path> getPath() {
+		return new ArrayList<Path>(this.cursor.values());
 	}
 }

@@ -2,15 +2,19 @@ package widget;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import mygeom.OBB;
+import mygeom.Point2;
 import mygeom.Vector2;
 import oneDollarRecognizer.OneDollarRecognizer;
 
 public class InternalGestureState {
 	protected OBB oldOBB, currentOBB;
 	protected Vector2 oldPos, currentPos, A, B, Ap, Bp;
-	protected OneDollarRecognizer oneDRecognizer; 
+	protected OneDollarRecognizer oneDRecognizer;
+	protected List<Point2> oldCursors, currentCursors;
 	
 	public InternalGestureState(MTComponent c) {
 		this.oldPos = new Vector2();
@@ -97,6 +101,27 @@ public class InternalGestureState {
 		Vector2 vP0 = new Vector2(P0.getX(), P0.getY());
 		
 		return (Vector2) vPp0.sub(vP0);
+	}
+	
+	public void motionLastTRSBegin(List<Point2> cursors) {
+		currentCursors = new ArrayList<Point2>(cursors);
+	}
+	
+	public void motionLastTRSUpdate(List<Point2> cursors) {
+		oldCursors = new ArrayList<Point2>(currentCursors);
+		currentCursors = new ArrayList<Point2>(cursors);
+	}
+	
+	public double computeLastTRSAngle() {
+		return 0;
+	}
+	
+	public double computeLastTRSScale() {
+		return 0;
+	}
+	
+	public Vector2 computeLastTRSTranslate() {
+		return null;
 	}
 
 	public OneDollarRecognizer getOneDRecognizer() {
