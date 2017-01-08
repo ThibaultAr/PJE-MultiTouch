@@ -40,6 +40,7 @@ public class MTPicture extends MTComponent {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		this.addGestureEventListener(new PicGestureListener());
 	}
 
 	@Override
@@ -53,10 +54,12 @@ class PicGestureListener implements GestureEventListener {
 	
 	@Override
 	public void gesturePerformed(GestureEvent ev) {
+		System.out.println("test");
 		if(ev.getNbDoigts() == 3) {
 			System.out.println(ev.getTemplateName() + ", score : " + ev.getScore());
-			if(ev.getTemplateName().equals("delete"))
+			if(ev.getTemplateName().equals("delete")) {
 				((MTPicture) ev.getSource()).setVisible(false);
+			}
 		}
 	}
 	
